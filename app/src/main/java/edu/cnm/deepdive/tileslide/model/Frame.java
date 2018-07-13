@@ -44,6 +44,7 @@ public class Frame {
     return moves;
   }
 
+  // Checks all surrounding tiles of current location in GridView
   public boolean move(int row, int col) {
     return move(row, col, row - 1, col)
         || move(row, col, row, col + 1)
@@ -58,9 +59,10 @@ public class Frame {
         && toRow < size
         && toCol >= 0
         && toCol < size
-        && tiles[toRow][toCol] == null
+        && tiles[toRow][toCol] == null // if location being considered is empty
     ) {
       swap(tiles, fromRow, fromCol, toRow, toCol);
+      ++moves;
       return true;
     }
     return false;

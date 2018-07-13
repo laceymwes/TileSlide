@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.TextView;
 import edu.cnm.deepdive.tileslide.R;
 import edu.cnm.deepdive.tileslide.model.Frame;
 import edu.cnm.deepdive.tileslide.view.FrameAdapter;
@@ -18,11 +19,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
   private Frame frame;
   private FrameAdapter adapter;
   private GridView tileGrid;
+  private TextView movesCounter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    movesCounter = findViewById(R.id.moves_counter);
     tileGrid = findViewById(R.id.tile_grid);
     tileGrid.setNumColumns(PUZZLE_SIZE);
     tileGrid.setOnItemClickListener(this);
@@ -32,8 +35,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    // TODO: Implement tile sliding by responding to clicks, and invoking any relevant
-    // methods in the Frame class.
+    int row = position / PUZZLE_SIZE;
+    int col = position % PUZZLE_SIZE;
+    frame.move(row, col);
+    adapter.notifyDataSetChanged();
+    movesCounter.setText(getString(R.string.moves_counter) + frame.getMoves());
   }
 
   private void createPuzzle() {

@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 import edu.cnm.deepdive.tileslide.R;
 import edu.cnm.deepdive.tileslide.model.Frame;
 import edu.cnm.deepdive.tileslide.view.FrameAdapter;
@@ -37,14 +38,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
     int row = position / PUZZLE_SIZE;
     int col = position % PUZZLE_SIZE;
-    frame.move(row, col);
-    adapter.notifyDataSetChanged();
-    movesCounter.setText(getString(R.string.moves_counter) + frame.getMoves());
+    updateGrid(row, col);
   }
 
   private void createPuzzle() {
     frame = new Frame(PUZZLE_SIZE, new Random());
     adapter = new FrameAdapter(this, frame);
     tileGrid.setAdapter(adapter);
+  }
+
+  private void updateGrid(int row, int col) {
+    if(frame.move(row, col)) {
+      adapter.notifyDataSetChanged();
+      movesCounter.setText(String.format(getString(R.string.moves_counter), frame.getMoves()));
+    } else {
+      Toast.makeText(this, getString(R.string.illegal_move), Toast.LENGTH_LONG).show();
+    }
   }
 }

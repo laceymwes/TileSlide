@@ -1,4 +1,5 @@
 <resources>
   <string name="app_name">Tile Slide</string>
-  <string name="moves_counter">Moves: </string>
+  <string name="moves_counter">Moves: %1$d </string>
+  <string name="illegal_move">Cannot move this tile!</string>
 </resources>

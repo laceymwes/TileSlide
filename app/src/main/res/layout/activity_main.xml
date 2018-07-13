@@ -26,7 +26,6 @@
     android:id="@+id/moves_counter"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="@string/moves_counter"
     app:layout_constraintTop_toBottomOf="@id/tile_grid"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintRight_toRightOf="parent"

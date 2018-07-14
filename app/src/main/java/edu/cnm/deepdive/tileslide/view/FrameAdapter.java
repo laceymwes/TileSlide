@@ -67,7 +67,7 @@ public class FrameAdapter extends ArrayAdapter<Tile> {
   }
 
   private void sliceBitmap() {
-    Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.android_robot_circle);
+    Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.r2_d2);
     Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
     tileImages = new Bitmap[size * size];
     int imageWidth = bitmap.getWidth();

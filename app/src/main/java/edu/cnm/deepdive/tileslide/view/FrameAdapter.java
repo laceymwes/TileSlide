@@ -22,12 +22,14 @@ public class FrameAdapter extends ArrayAdapter<Tile> {
   private Bitmap noTileImage; // empty space
   private Frame frame;
   private Tile[] tiles;
+  private int imageID;
 
-  public FrameAdapter(@NonNull Context context, @NonNull Frame frame) {
+  public FrameAdapter(@NonNull Context context, @NonNull Frame frame, @NonNull int imageID) {
     super(context, R.layout.tile_item);
     this.frame = frame;
     size = frame.getTiles().length;
     tiles = new Tile[size * size];
+    this.imageID = imageID;
     copyModelTiles();
     addAll(tiles);
     sliceBitmap();
@@ -66,8 +68,12 @@ public class FrameAdapter extends ArrayAdapter<Tile> {
     }
   }
 
+  public int getImageID() {
+    return imageID;
+  }
+
   private void sliceBitmap() {
-    Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.r2d2_puzzle);
+    Drawable drawable = ContextCompat.getDrawable(getContext(), imageID);
     Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
     tileImages = new Bitmap[size * size];
     int imageWidth = bitmap.getWidth();

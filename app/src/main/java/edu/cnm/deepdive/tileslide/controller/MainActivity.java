@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import edu.cnm.deepdive.tileslide.R;
@@ -30,9 +31,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
   private GridView tileGrid;
   private TextView movesCounter;
   private Button resetButton;
-
-
-
+  private ImageButton androidButton;
+  private ImageButton r2d2Button;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,24 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         frame.reset();
         adapter.notifyDataSetChanged();
         updateMoves();
+      }
+    });
+    androidButton = findViewById(R.id.android);
+    r2d2Button = findViewById(R.id.r2d2);
+    androidButton.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        if (adapter.getImageID() != R.drawable.android_puzzle) {
+          setAdapter(R.drawable.android_puzzle);
+        }
+      }
+    });
+    r2d2Button.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        if (adapter.getImageID() != R.drawable.r2d2_puzzle) {
+          setAdapter(R.drawable.r2d2_puzzle);
+        }
       }
     });
     tileGrid = findViewById(R.id.tile_grid);
@@ -78,7 +96,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     } else {
       frame = new Frame(PUZZLE_SIZE, new Random());
     }
-    adapter = new FrameAdapter(this, frame);
+    setAdapter(R.drawable.android_puzzle);
+  }
+
+  private void setAdapter(int puzzleID) {
+    adapter = new FrameAdapter(this, frame, puzzleID);
     tileGrid.setAdapter(adapter);
   }
 

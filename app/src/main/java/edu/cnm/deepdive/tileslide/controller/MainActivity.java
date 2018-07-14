@@ -22,6 +22,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
   public static final String TILE_NUMS_KEY = "tileNums";
+  public static final String START_NUMS_KEY = "startNums";
   private static int PUZZLE_SIZE = 3;
 
   private Frame frame;
@@ -29,7 +30,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
   private GridView tileGrid;
   private TextView movesCounter;
   private Button resetButton;
-  private ArrayList<Integer> tileNums;
+
+
 
 
   @Override
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
       @Override
       public void onClick(View v) {
         frame.reset();
+        adapter.notifyDataSetChanged();
         updateMoves();
       }
     });
@@ -58,14 +61,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     updateGrid(row, col);
   }
 
+
   private void createPuzzle(Bundle savedInstanceState) {
-    frame = new Frame(PUZZLE_SIZE, new Random());
     if (savedInstanceState != null) {
-      frame.setTiles(
+      frame = new Frame(
+          PUZZLE_SIZE,
+          // frame.tiles[][]
           savedInstanceState
           .getIntegerArrayList(TILE_NUMS_KEY)
-          .toArray(new Integer[0])
+          .toArray(new Integer[0]),
+          // frame.start[][]
+          savedInstanceState.getIntegerArrayList(START_NUMS_KEY)
+          .toArray(new Integer[0]),
+          new Random()
       );
+    } else {
+      frame = new Frame(PUZZLE_SIZE, new Random());
     }
     adapter = new FrameAdapter(this, frame);
     tileGrid.setAdapter(adapter);
@@ -94,17 +105,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
   }
 
 
+  // TODO: save start tiles as well. Use frame.getStart()
   @Override
   protected void onSaveInstanceState(Bundle outState) {
+    ArrayList<Integer> tileNums = new ArrayList<>();;
     Tile[][] source = frame.getTiles();
-    tileNums = new ArrayList<>();
     for (int row = 0; row < source.length; row++) {
       for (int col = 0; col < source[0].length; col++) {
           tileNums.add((source[row][col] == null)?
               null : (source[row][col].getNumber()));
       }
     }
-    outState.putIntegerArrayList(TILE_NUMS_KEY,tileNums);
+    ArrayList<Integer> startNums = new ArrayList<>();
+    Tile[][] start = frame.getStart();
+    for (int row = 0; row < start.length; row++) {
+      for (int col = 0; col < start[0].length; col++) {
+        startNums.add((start[row][col] == null)?
+            null : (start[row][col].getNumber()));
+      }
+    }
+    outState.putIntegerArrayList(TILE_NUMS_KEY, tileNums);
+    outState.putIntegerArrayList(START_NUMS_KEY, startNums);
     super.onSaveInstanceState(outState);
   }
 }

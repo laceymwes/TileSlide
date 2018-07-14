@@ -28,6 +28,15 @@ public class Frame {
     scramble();
   }
 
+  public Frame(int size, Integer[] tileNums, Integer[] startNums, Random rng) {
+    this.size = size;
+    this.rng = rng;
+    this.start = new Tile[size][size];
+    this.tiles = new Tile[size][size];
+    setTiles(tileNums);
+    setStart(startNums);
+  }
+
   public boolean hasWon() {
     return (Arrays.equals(tiles, win));
   }
@@ -46,11 +55,23 @@ public class Frame {
     moves = 0;
   }
 
+  public Tile[][] getStart() {
+    return start;
+  }
+
   public Tile[][] getTiles() {
     return tiles;
   }
 
-  public void setTiles(Integer[] tileNums) {
+  private void setStart(Integer[] startNums) {
+    for (int i = 0; i < startNums.length; i++) {
+      start[i / size][i % size] =
+          (startNums[i] == null) ?
+              null : new Tile(startNums[i]);
+    }
+  }
+
+  private void setTiles(Integer[] tileNums) {
     for (int i = 0; i < tileNums.length; i++) {
       tiles[i / size][i % size] =
         (tileNums[i] == null) ?

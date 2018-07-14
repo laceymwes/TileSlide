@@ -3,4 +3,5 @@
   <string name="moves_counter">Moves: %1$d </string>
   <string name="illegal_move">This is not the droid you are looking for.</string>
   <string name="win">You win!</string>
+  <string name="reset_button">Reset</string>
 </resources>

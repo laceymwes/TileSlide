@@ -63,7 +63,6 @@ public class FrameAdapter extends ArrayAdapter<Tile> {
     Tile[][] source = frame.getTiles();
     for (int row = 0; row < size; row++) {
       System.arraycopy(source[row], 0, tiles, row * size, size);
-
     }
   }
 

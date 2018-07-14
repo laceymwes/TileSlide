@@ -1,5 +1,9 @@
 package edu.cnm.deepdive.tileslide.model;
 
+import static android.content.ContentValues.TAG;
+
+import android.util.Log;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Frame {
@@ -8,6 +12,7 @@ public class Frame {
   private Random rng;
   private Tile[][] start;
   private Tile[][] tiles;
+  private Tile[][] win;
   private int moves;
 
   public Frame(int size, Random rng) {
@@ -19,7 +24,12 @@ public class Frame {
       tiles[i / size][i % size] = new Tile(i);
     }
     tiles[size - 1][size - 1] = null;
+    win = Arrays.copyOf(tiles, 0);
     scramble();
+  }
+
+  public boolean hasWon() {
+    return (Arrays.equals(tiles, win));
   }
 
   public void reset() {
@@ -38,6 +48,14 @@ public class Frame {
 
   public Tile[][] getTiles() {
     return tiles;
+  }
+
+  public void setTiles(Integer[] tileNums) {
+    for (int i = 0; i < tileNums.length; i++) {
+      tiles[i / size][i % size] =
+        (tileNums[i] == null) ?
+         null : new Tile(tileNums[i]);
+    }
   }
 
   public int getMoves() {

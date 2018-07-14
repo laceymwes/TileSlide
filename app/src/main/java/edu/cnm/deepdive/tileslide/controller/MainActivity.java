@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
   // TODO: save start tiles as well. Use frame.getStart()
   @Override
   protected void onSaveInstanceState(Bundle outState) {
-    ArrayList<Integer> tileNums = new ArrayList<>();;
+    ArrayList<Integer> tileNums = new ArrayList<>();
     Tile[][] source = frame.getTiles();
     for (int row = 0; row < source.length; row++) {
       for (int col = 0; col < source[0].length; col++) {

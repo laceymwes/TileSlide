@@ -4,4 +4,12 @@
   <string name="illegal_move">This is not the droid you are looking for.</string>
   <string name="win">You win!</string>
   <string name="reset_button">Reset</string>
+  <string name="settings">Settings</string>
+
+  <!-- TODO: Remove or change this placeholder text -->
+  <string name="hello_blank_fragment">Hello blank fragment</string>
+  <string name="puzzle_image">Puzzle Image</string>
+  <string name="num_tiles_default">3</string>
+  <string name="num_tiles_pref">Number of Puzzle Tiles</string>
+  <string name="puzz_image_pref">Puzzle Image</string>
 </resources>

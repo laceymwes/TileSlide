@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string-array name="puzzle_images">
+    <item>Android</item>
+    <item>R2D2</item>
+  </string-array>
+
+  <string-array name="num_tiles">
+    <item>3</item>
+    <item>4</item>
+    <item>5</item>
+    <item>6</item>
+  </string-array>
+
+</resources>

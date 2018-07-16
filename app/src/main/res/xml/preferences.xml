@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <ListPreference
+    android:key="num_tiles"
+    android:title="@string/num_tiles_pref"
+    android:entryValues="@array/num_tiles"
+    android:defaultValue="@string/num_tiles_default"/>
+
+  <ListPreference
+    android:key="puzzle_image"
+    android:title="@string/puzz_image_pref"
+    android:entryValues="@array/puzzle_images"
+    android:defaultValue="Android" />
+
+</PreferenceScreen>

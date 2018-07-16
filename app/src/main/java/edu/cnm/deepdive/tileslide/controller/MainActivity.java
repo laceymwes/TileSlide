@@ -1,12 +1,16 @@
 package edu.cnm.deepdive.tileslide.controller;
 
-import android.os.PersistableBundle;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -17,7 +21,6 @@ import edu.cnm.deepdive.tileslide.model.Frame;
 import edu.cnm.deepdive.tileslide.model.Tile;
 import edu.cnm.deepdive.tileslide.view.FrameAdapter;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -25,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
   public static final String TILE_NUMS_KEY = "tileNums";
   public static final String START_NUMS_KEY = "startNums";
   private static int PUZZLE_SIZE = 3;
+  private static final int PREFERENCE_REQUEST_CODE = 1;
 
   private Frame frame;
   private FrameAdapter adapter;
@@ -33,11 +37,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
   private Button resetButton;
   private ImageButton androidButton;
   private ImageButton r2d2Button;
+  private PreferenceFragment pFragment;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    pFragment = new PreferenceFragment();
     movesCounter = findViewById(R.id.moves_counter);
     resetButton = findViewById(R.id.reset_button);
     resetButton.setOnClickListener(new OnClickListener() {
@@ -73,12 +79,46 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
   }
 
   @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.options_menu, menu);
+    return super.onCreateOptionsMenu(menu);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.preferences:
+        Intent intent = new Intent(this, PreferenceFragment.class);
+        startActivityForResult(intent, PREFERENCE_REQUEST_CODE);
+  }
+    return true;
+  }
+
+  // Finish implementation
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    String numTiles = getPreferences(this.MODE_PRIVATE).getString("num_tiles", null);
+    String puzzleImage = getPreferences(this.MODE_PRIVATE).getString("puzzle_image", null);
+    if (requestCode == PREFERENCE_REQUEST_CODE) {
+      if (numTiles != null) {
+        PUZZLE_SIZE = Integer.parseInt(numTiles);
+      }
+      if (puzzleImage != null) {
+        switch (puzzleImage.toLowerCase()) {
+          case "android":
+
+        }
+      }
+    }
+  }
+
+  @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
     int row = position / PUZZLE_SIZE;
     int col = position % PUZZLE_SIZE;
     updateGrid(row, col);
   }
-
 
   private void createPuzzle(Bundle savedInstanceState) {
     if (savedInstanceState != null) {
@@ -127,7 +167,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
   }
 
 
-  // TODO: save start tiles as well. Use frame.getStart()
   @Override
   protected void onSaveInstanceState(Bundle outState) {
     ArrayList<Integer> tileNums = new ArrayList<>();

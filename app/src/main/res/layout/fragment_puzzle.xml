@@ -1,0 +1,62 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="edu.cnm.deepdive.tileslide.PuzzleFragment"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <GridView
+      android:id="@+id/tile_grid"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:numColumns="3"
+      android:horizontalSpacing="@dimen/cell_spacing"
+      android:verticalSpacing="@dimen/cell_spacing"
+      android:layout_margin="@dimen/layout_margin"
+      android:background="@color/puzzleBackground"
+      android:padding="@dimen/cell_spacing"
+      app:layout_constraintDimensionRatio="1:1"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toTopOf="@+id/android"/>
+
+    <ImageButton
+      android:id="@+id/android"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:src="@drawable/android_button"
+      app:layout_constraintTop_toBottomOf="@+id/tile_grid"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toLeftOf="@+id/r2d2"/>
+
+    <ImageButton
+      android:id="@+id/r2d2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:src="@drawable/r2d2_button"
+      app:layout_constraintTop_toBottomOf="@+id/tile_grid"
+      app:layout_constraintLeft_toRightOf="@+id/android"
+      app:layout_constraintRight_toRightOf="parent"/>
+
+    <TextView
+      android:id="@+id/moves_counter"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:layout_constraintBottom_toTopOf="@+id/reset_button"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <Button
+      android:id="@+id/reset_button"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:enabled="true"
+      android:text="@string/reset_button"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintLeft_toLeftOf="parent"
+      />
+
+  </android.support.constraint.ConstraintLayout>

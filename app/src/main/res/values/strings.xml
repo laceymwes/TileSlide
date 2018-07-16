@@ -12,4 +12,5 @@
   <string name="num_tiles_default">3</string>
   <string name="num_tiles_pref">Number of Puzzle Tiles</string>
   <string name="puzz_image_pref">Puzzle Image</string>
+  <string name="preferences">Preferences</string>
 </resources>

@@ -5,11 +5,13 @@
     android:key="num_tiles"
     android:title="@string/num_tiles_pref"
     android:entryValues="@array/num_tiles"
+    android:entries="@array/num_tiles"
     android:defaultValue="@string/num_tiles_default"/>
 
   <ListPreference
     android:key="puzzle_image"
     android:title="@string/puzz_image_pref"
+    android:entries="@array/puzzle_images"
     android:entryValues="@array/puzzle_images"
     android:defaultValue="Android" />
 

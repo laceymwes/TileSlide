@@ -20,11 +20,14 @@ public class Frame {
     this.rng = rng;
     start = new Tile[size][size];
     tiles = new Tile[size][size];
+    win = new Tile[size][size];
     for (int i = 0; i < size * size - 1; i++) {
       tiles[i / size][i % size] = new Tile(i);
     }
     tiles[size - 1][size - 1] = null;
-    win = Arrays.copyOf(tiles, 0);
+    for (int i = 0; i < tiles.length; i++){
+      System.arraycopy(tiles[i], 0, win[i], 0, tiles[i].length);
+    }
     scramble();
   }
 
@@ -38,7 +41,7 @@ public class Frame {
   }
 
   public boolean hasWon() {
-    return (Arrays.equals(tiles, win));
+    return (Arrays.deepEquals(tiles, win));
   }
 
   public void reset() {

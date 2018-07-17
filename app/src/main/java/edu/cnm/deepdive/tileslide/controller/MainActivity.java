@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity  implements OnSharedPreferen
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     setContentView(R.layout.activity_main);
     prefFragment = new PreferencesFragment();
     if (savedInstanceState == null) {
@@ -57,7 +58,6 @@ public class MainActivity extends AppCompatActivity  implements OnSharedPreferen
           .commit();
     }
   }
-
 
   @Override
   protected void onResume() {

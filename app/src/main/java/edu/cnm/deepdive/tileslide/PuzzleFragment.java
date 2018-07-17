@@ -54,16 +54,18 @@ public class PuzzleFragment extends Fragment implements AdapterView.OnItemClickL
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-    preferences.registerOnSharedPreferenceChangeListener(this);
     setDefaults();
   }
 
   private void setDefaults() {
-    puzzleSize = Integer.parseInt(preferences.getString(NUM_TILES_PREF_KEY, null));
-    puzzleImageID = (preferences
-        .getString(PUZZLE_IMAGE_PREF_KEY, null).toLowerCase().equals("android")) ?
-        R.drawable.android_puzzle : R.drawable.r2d2_puzzle;
+    preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+    preferences.registerOnSharedPreferenceChangeListener(this);
+    if (preferences.getString(PUZZLE_IMAGE_PREF_KEY, null) != null) {
+      puzzleSize = Integer.parseInt(preferences.getString(NUM_TILES_PREF_KEY, null));
+      puzzleImageID = (preferences
+          .getString(PUZZLE_IMAGE_PREF_KEY, null).toLowerCase().equals("android")) ?
+          R.drawable.android_puzzle : R.drawable.r2d2_puzzle;
+    }
   }
 
   public PuzzleFragment() {

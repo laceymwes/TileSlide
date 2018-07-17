@@ -1,30 +1,28 @@
 package edu.cnm.deepdive.tileslide.controller;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceFragment.OnPreferenceStartFragmentCallback;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 import edu.cnm.deepdive.tileslide.PuzzleFragment;
 import edu.cnm.deepdive.tileslide.R;
 import edu.cnm.deepdive.tileslide.model.Frame;
-import edu.cnm.deepdive.tileslide.model.Tile;
 import edu.cnm.deepdive.tileslide.view.FrameAdapter;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity  implements OnSharedPreferenceChangeListener {
 
   public static final String TILE_NUMS_KEY = "tileNums";
   public static final String START_NUMS_KEY = "startNums";
@@ -43,18 +41,33 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
   private Button resetButton;
   private ImageButton androidButton;
   private ImageButton r2d2Button;
-  private PreferenceFragment pFragment;
+  private PreferencesFragment prefFragment;
+  private PuzzleFragment puzFragment;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    getSupportFragmentManager().beginTransaction()
-        .addToBackStack(null)
-        .replace(R.id.container, new PuzzleFragment())
-        .commit();
+    prefFragment = new PreferencesFragment();
+    if (savedInstanceState == null) {
+      puzFragment = new PuzzleFragment();
+      getFragmentManager().beginTransaction()
+          .addToBackStack("puzzle")
+          .replace(R.id.container, puzFragment)
+          .commit();
+    }
   }
 
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+
+  }
+
+  public PreferencesFragment getPrefFragment() {
+    return prefFragment;
+  }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
@@ -67,12 +80,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.preferences:
-        getFragmentManager().beginTransaction()
+        getFragmentManager()
+            .beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container, new PreferenceFragment())
+            .replace(R.id.container, prefFragment)
             .commit();
-
     }
     return true;
+  }
+
+
+  @Override
+  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    System.out.print("hello");
   }
 }

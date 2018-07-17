@@ -20,25 +20,7 @@
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintRight_toRightOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintBottom_toTopOf="@+id/android"/>
-
-    <ImageButton
-      android:id="@+id/android"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:src="@drawable/android_button"
-      app:layout_constraintTop_toBottomOf="@+id/tile_grid"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintRight_toLeftOf="@+id/r2d2"/>
-
-    <ImageButton
-      android:id="@+id/r2d2"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:src="@drawable/r2d2_button"
-      app:layout_constraintTop_toBottomOf="@+id/tile_grid"
-      app:layout_constraintLeft_toRightOf="@+id/android"
-      app:layout_constraintRight_toRightOf="parent"/>
+      app:layout_constraintBottom_toTopOf="@+id/moves_counter"/>
 
     <TextView
       android:id="@+id/moves_counter"

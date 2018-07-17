@@ -3,22 +3,24 @@ package edu.cnm.deepdive.tileslide;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.Fragment;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
-import edu.cnm.deepdive.tileslide.controller.MainActivity;
-import edu.cnm.deepdive.tileslide.controller.PreferenceFragment;
+import edu.cnm.deepdive.tileslide.controller.PreferencesFragment;
 import edu.cnm.deepdive.tileslide.model.Frame;
 import edu.cnm.deepdive.tileslide.model.Tile;
 import edu.cnm.deepdive.tileslide.view.FrameAdapter;
@@ -29,11 +31,39 @@ import java.util.Random;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PuzzleFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class PuzzleFragment extends Fragment implements AdapterView.OnItemClickListener,
+  SharedPreferences.OnSharedPreferenceChangeListener {
+
+
+  public static final String TILE_NUMS_KEY = "tileNums";
+  public static final String START_NUMS_KEY = "startNums";
+  private static int puzzleSize = 3;
+  private static int puzzleImageID = R.drawable.android_puzzle;
+  private static final String NUM_TILES_PREF_KEY = "num_tiles";
+  private static final String PUZZLE_IMAGE_PREF_KEY = "puzzle_image";
+
+  private Frame frame;
+  private FrameAdapter adapter;
+  private GridView tileGrid;
+  private TextView movesCounter;
+  private Button resetButton;
+  private ImageButton androidButton;
+  private ImageButton r2d2Button;
+  private SharedPreferences preferences;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+    preferences.registerOnSharedPreferenceChangeListener(this);
+    setDefaults();
+  }
+
+  private void setDefaults() {
+    puzzleSize = Integer.parseInt(preferences.getString(NUM_TILES_PREF_KEY, null));
+    puzzleImageID = (preferences
+        .getString(PUZZLE_IMAGE_PREF_KEY, null).toLowerCase().equals("android")) ?
+        R.drawable.android_puzzle : R.drawable.r2d2_puzzle;
   }
 
   public PuzzleFragment() {
@@ -42,9 +72,6 @@ public class PuzzleFragment extends Fragment implements AdapterView.OnItemClickL
 
   @Override
   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-    SharedPreferences sharedPreferences = getActivity().getPreferences(MODE_PRIVATE);
-    sharedPreferences.registerOnSharedPreferenceChangeListener(new PreferenceChangeListener());
-    pFragment = new PreferenceFragment();
     movesCounter = view.findViewById(R.id.moves_counter);
     resetButton = view.findViewById(R.id.reset_button);
     resetButton.setOnClickListener(new OnClickListener() {
@@ -55,7 +82,7 @@ public class PuzzleFragment extends Fragment implements AdapterView.OnItemClickL
         updateMoves();
       }
     });
-    tileGrid = findViewById(R.id.tile_grid);
+    tileGrid = view.findViewById(R.id.tile_grid);
     tileGrid.setNumColumns(puzzleSize);
     tileGrid.setOnItemClickListener(this);
     createPuzzle(savedInstanceState);
@@ -69,7 +96,7 @@ public class PuzzleFragment extends Fragment implements AdapterView.OnItemClickL
   }
 
   private void setAdapter(int puzzleID) {
-    adapter = new FrameAdapter(this, frame, puzzleID);
+    adapter = new FrameAdapter(getActivity(), frame, puzzleID);
     tileGrid.setAdapter(adapter);
   }
 
@@ -108,7 +135,7 @@ public class PuzzleFragment extends Fragment implements AdapterView.OnItemClickL
         won();
       }
     } else {
-      Toast.makeText(getContext(), getString(R.string.illegal_move), Toast.LENGTH_LONG).show();
+      Toast.makeText(getActivity(), getString(R.string.illegal_move), Toast.LENGTH_LONG).show();
     }
   }
 
@@ -117,7 +144,7 @@ public class PuzzleFragment extends Fragment implements AdapterView.OnItemClickL
   }
 
   private void won() {
-    Toast.makeText(getContext(), getString(R.string.win), Toast.LENGTH_LONG).show();
+    Toast.makeText(getActivity(), getString(R.string.win), Toast.LENGTH_LONG).show();
     tileGrid.setOnItemClickListener(null);
     resetButton.setEnabled(false);
   }
@@ -145,23 +172,19 @@ public class PuzzleFragment extends Fragment implements AdapterView.OnItemClickL
     super.onSaveInstanceState(outState);
   }
 
-  private class PreferenceChangeListener implements OnSharedPreferenceChangeListener {
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-      if (key.equals(NUM_TILES_PREF_KEY)) {
+  @Override
+  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    switch (key.toLowerCase()) {
+      case "num_tiles":
         puzzleSize = Integer.parseInt(sharedPreferences.getString(key, null));
-      }
-      if (key.equals(PUZZLE_IMAGE_PREF_KEY)) {
-        switch (sharedPreferences.getString(key, null).toLowerCase()) {
-          case "android":
-            PuzzleFragment.this.puzzleImageID = R.drawable.android_puzzle;
-            break;
-          case "r2d2":
-            PuzzleFragment.this.puzzleImageID = R.drawable.r2d2_puzzle;
+        break;
+      case "puzzle_image":
+        if (sharedPreferences.getString(key, null).toLowerCase().equals("android")) {
+          puzzleImageID = R.drawable.android_puzzle;
+        } else {
+          puzzleImageID = R.drawable.r2d2_puzzle;
         }
-      }
-      createPuzzle(null);
     }
+    createPuzzle(null);
   }
 }

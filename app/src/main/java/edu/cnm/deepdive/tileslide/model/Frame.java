@@ -1,8 +1,5 @@
 package edu.cnm.deepdive.tileslide.model;
 
-import static android.content.ContentValues.TAG;
-
-import android.util.Log;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -25,7 +22,7 @@ public class Frame {
       tiles[i / size][i % size] = new Tile(i);
     }
     tiles[size - 1][size - 1] = null;
-    for (int i = 0; i < tiles.length; i++){
+    for (int i = 0; i < tiles.length; i++) {
       System.arraycopy(tiles[i], 0, win[i], 0, tiles[i].length);
     }
     scramble();
@@ -77,8 +74,8 @@ public class Frame {
   private void setTiles(Integer[] tileNums) {
     for (int i = 0; i < tileNums.length; i++) {
       tiles[i / size][i % size] =
-        (tileNums[i] == null) ?
-         null : new Tile(tileNums[i]);
+          (tileNums[i] == null) ?
+              null : new Tile(tileNums[i]);
     }
   }
 
@@ -97,12 +94,12 @@ public class Frame {
   private boolean move(int fromRow, int fromCol, int toRow, int toCol) {
     if (
         tiles[fromRow][fromCol] != null
-        && toRow >= 0
-        && toRow < size
-        && toCol >= 0
-        && toCol < size
-        && tiles[toRow][toCol] == null // if location being considered is empty
-    ) {
+            && toRow >= 0
+            && toRow < size
+            && toCol >= 0
+            && toCol < size
+            && tiles[toRow][toCol] == null // if location being considered is empty
+        ) {
       swap(tiles, fromRow, fromCol, toRow, toCol);
       ++moves;
       return true;

@@ -1,46 +1,17 @@
 package edu.cnm.deepdive.tileslide.controller;
 
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceFragment.OnPreferenceStartFragmentCallback;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.GridView;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import edu.cnm.deepdive.tileslide.PuzzleFragment;
+import edu.cnm.deepdive.tileslide.fragment.PuzzleFragment;
 import edu.cnm.deepdive.tileslide.R;
-import edu.cnm.deepdive.tileslide.model.Frame;
-import edu.cnm.deepdive.tileslide.view.FrameAdapter;
-import java.util.prefs.PreferenceChangeEvent;
-import java.util.prefs.PreferenceChangeListener;
+import edu.cnm.deepdive.tileslide.fragment.PreferencesFragment;
 
-public class MainActivity extends AppCompatActivity  implements OnSharedPreferenceChangeListener {
+public class MainActivity extends AppCompatActivity {
 
-  public static final String TILE_NUMS_KEY = "tileNums";
-  public static final String START_NUMS_KEY = "startNums";
-  private static int puzzleSize = 3;
-  private static int puzzleImageID = R.drawable.android_puzzle;
-  private static final int PREFERENCE_REQUEST_CODE = 1;
-  private static final String NUM_TILES_PREF_KEY = "num_tiles";
-  private static final String PUZZLE_IMAGE_PREF_KEY = "puzzle_image";
-
-
-
-  private Frame frame;
-  private FrameAdapter adapter;
-  private GridView tileGrid;
-  private TextView movesCounter;
-  private Button resetButton;
-  private ImageButton androidButton;
-  private ImageButton r2d2Button;
   private PreferencesFragment prefFragment;
   private PuzzleFragment puzFragment;
 
@@ -65,10 +36,6 @@ public class MainActivity extends AppCompatActivity  implements OnSharedPreferen
 
   }
 
-  public PreferencesFragment getPrefFragment() {
-    return prefFragment;
-  }
-
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
@@ -89,9 +56,4 @@ public class MainActivity extends AppCompatActivity  implements OnSharedPreferen
     return true;
   }
 
-
-  @Override
-  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-    System.out.print("hello");
-  }
 }

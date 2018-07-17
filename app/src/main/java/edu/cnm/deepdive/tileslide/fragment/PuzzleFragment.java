@@ -1,12 +1,8 @@
-package edu.cnm.deepdive.tileslide;
+package edu.cnm.deepdive.tileslide.fragment;
 
-
-import static android.content.Context.MODE_PRIVATE;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -17,10 +13,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import edu.cnm.deepdive.tileslide.controller.PreferencesFragment;
+import edu.cnm.deepdive.tileslide.R;
 import edu.cnm.deepdive.tileslide.model.Frame;
 import edu.cnm.deepdive.tileslide.model.Tile;
 import edu.cnm.deepdive.tileslide.view.FrameAdapter;
@@ -32,7 +27,7 @@ import java.util.Random;
  * A simple {@link Fragment} subclass.
  */
 public class PuzzleFragment extends Fragment implements AdapterView.OnItemClickListener,
-  SharedPreferences.OnSharedPreferenceChangeListener {
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
 
   public static final String TILE_NUMS_KEY = "tileNums";
@@ -47,13 +42,12 @@ public class PuzzleFragment extends Fragment implements AdapterView.OnItemClickL
   private GridView tileGrid;
   private TextView movesCounter;
   private Button resetButton;
-  private ImageButton androidButton;
-  private ImageButton r2d2Button;
   private SharedPreferences preferences;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    setHasOptionsMenu(true);
     setDefaults();
   }
 
@@ -130,7 +124,7 @@ public class PuzzleFragment extends Fragment implements AdapterView.OnItemClickL
   }
 
   private void updateGrid(int row, int col) {
-    if(frame.move(row, col)) {
+    if (frame.move(row, col)) {
       adapter.notifyDataSetChanged();
       updateMoves();
       if (frame.hasWon()) {
@@ -157,7 +151,7 @@ public class PuzzleFragment extends Fragment implements AdapterView.OnItemClickL
     Tile[][] source = frame.getTiles();
     for (int row = 0; row < source.length; row++) {
       for (int col = 0; col < source[0].length; col++) {
-        tileNums.add((source[row][col] == null)?
+        tileNums.add((source[row][col] == null) ?
             null : (source[row][col].getNumber()));
       }
     }
@@ -165,7 +159,7 @@ public class PuzzleFragment extends Fragment implements AdapterView.OnItemClickL
     Tile[][] start = frame.getStart();
     for (int row = 0; row < start.length; row++) {
       for (int col = 0; col < start[0].length; col++) {
-        startNums.add((start[row][col] == null)?
+        startNums.add((start[row][col] == null) ?
             null : (start[row][col].getNumber()));
       }
     }

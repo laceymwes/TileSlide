@@ -68,10 +68,6 @@ public class FrameAdapter extends ArrayAdapter<Tile> {
     }
   }
 
-  public int getImageID() {
-    return imageID;
-  }
-
   private void sliceBitmap() {
     Drawable drawable = ContextCompat.getDrawable(getContext(), imageID);
     Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
